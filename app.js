@@ -124,3 +124,63 @@ app.get("/fertilizers/:id", (req, res) => {
   // Jika ditemukan, kirim objek data langsung
   res.status(200).json(pupuk);
 });
+
+// POST /fertilizers
+// Body: { "namaPupuk": "Pupuk Kompos Super", "jenis": "organik", "beratKg": 25, "harga": 60000, "stok": 40 }
+// Menambahkan data pupuk baru
+app.post("/fertilizers", (req, res) => {
+  const { namaPupuk, jenis, beratKg, harga, stok } = req.body;
+
+  // Validasi: field wajib tidak boleh kosong
+  if (
+    !namaPupuk ||
+    !jenis ||
+    beratKg === undefined ||
+    beratKg === null ||
+    harga === undefined ||
+    harga === null
+  ) {
+    return res.status(400).json({
+      status: "error",
+      message: "namaPupuk, jenis, beratKg, dan harga wajib diisi",
+      data: null,
+    });
+  }
+
+  // Validasi: jenis harus bernilai 'organik' atau 'anorganik'
+  if (jenis !== "organik" && jenis !== "anorganik") {
+    return res.status(400).json({
+      status: "error",
+      message: "jenis harus bernilai 'organik' atau 'anorganik'",
+      data: null,
+    });
+  }
+
+  // Validasi: tipe data angka
+  if (typeof beratKg !== "number" || typeof harga !== "number" || isNaN(beratKg) || isNaN(harga)) {
+    return res.status(400).json({
+      status: "error",
+      message: "beratKg dan harga harus berupa angka",
+      data: null,
+    });
+  }
+
+  // Buat data baru dengan id otomatis
+  const baru = {
+    id: nextId++,
+    namaPupuk: typeof namaPupuk === "string" ? namaPupuk.trim() : namaPupuk,
+    jenis,
+    beratKg,
+    harga,
+    stok: stok !== undefined ? Number(stok) : 0,
+  };
+
+  fertilizers.push(baru);
+
+  // Response berhasil ditambahkan (201)
+  res.status(201).json({
+    status: "success",
+    message: "Data berhasil ditambahkan",
+    data: baru,
+  });
+});
