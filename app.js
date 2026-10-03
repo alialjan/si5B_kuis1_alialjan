@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
     nama: "Kgs. Muhammad Alialjan Nama",
     nim: "2428240140",
     kelas: "SI5B",
-    topik: "Topik 33 — Toko Tani: Pupuk",
+    topik: "Topik 33 â€” Toko Tani: Pupuk",
     resource: "/fertilizers",
     endpoints: [
       {
@@ -184,3 +184,122 @@ app.post("/fertilizers", (req, res) => {
     data: baru,
   });
 });
+
+// PUT /fertilizers/:id
+// Body: { "namaPupuk": "Pupuk Kompos Super", "jenis": "organik", "beratKg": 25, "harga": 60000, "stok": 40 }
+// Mengubah seluruh data pupuk berdasarkan ID
+app.put("/fertilizers/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = fertilizers.findIndex((item) => item.id === id);
+
+  // Jika data tidak ditemukan
+  if (index === -1) {
+    return res.status(404).json({
+      status: "error",
+      message: `Data dengan id ${id} tidak ditemukan`,
+      data: null,
+    });
+  }
+
+  const { namaPupuk, jenis, beratKg, harga, stok } = req.body;
+
+  // Validasi: field wajib tidak boleh kosong
+  if (
+    !namaPupuk ||
+    !jenis ||
+    beratKg === undefined ||
+    beratKg === null ||
+    harga === undefined ||
+    harga === null
+  ) {
+    return res.status(400).json({
+      status: "error",
+      message: "namaPupuk, jenis, beratKg, dan harga wajib diisi",
+      data: null,
+    });
+  }
+
+  // Validasi: jenis harus bernilai 'organik' atau 'anorganik'
+  if (jenis !== "organik" && jenis !== "anorganik") {
+    return res.status(400).json({
+      status: "error",
+      message: "jenis harus bernilai 'organik' atau 'anorganik'",
+      data: null,
+    });
+  }
+
+  // Validasi: tipe data angka
+  if (typeof beratKg !== "number" || typeof harga !== "number" || isNaN(beratKg) || isNaN(harga)) {
+    return res.status(400).json({
+      status: "error",
+      message: "beratKg dan harga harus berupa angka",
+      data: null,
+    });
+  }
+
+  // Penggantian penuh data dengan mempertahankan id
+  fertilizers[index] = {
+    id,
+    namaPupuk: typeof namaPupuk === "string" ? namaPupuk.trim() : namaPupuk,
+    jenis,
+    beratKg,
+    harga,
+    stok: stok !== undefined ? Number(stok) : 0,
+  };
+
+  // Response berhasil diubah (200)
+  res.status(200).json({
+    status: "success",
+    message: "Data berhasil diubah",
+    data: fertilizers[index],
+  });
+});
+
+// DELETE /fertilizers/:id
+// Menghapus data pupuk berdasarkan ID
+app.delete("/fertilizers/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = fertilizers.findIndex((item) => item.id === id);
+
+  // Jika data tidak ditemukan
+  if (index === -1) {
+    return res.status(404).json({
+      status: "error",
+      message: `Data dengan id ${id} tidak ditemukan`,
+      data: null,
+    });
+  }
+
+  // Hapus data dari array
+  fertilizers.splice(index, 1);
+
+  // Response berhasil dihapus (200)
+  res.status(200).json({
+    status: "success",
+    message: `Data pupuk dengan id ${id} berhasil dihapus`,
+    data: null,
+  });
+});
+
+// Middleware catch-all 404 untuk route yang tidak terdaftar
+app.use((req, res) => {
+  res.status(404).json({
+    status: "error",
+    message: "Endpoint tidak ditemukan",
+    data: null,
+  });
+});
+
+// Menjalankan server di port lokal dan export app untuk Vercel
+const PORT = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () =>
+    console.log(`Server berjalan di http://localhost:${PORT}`)
+  );
+}
+
+module.exports = app;
+
+
+
+
