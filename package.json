@@ -1,0 +1,20 @@
+{
+  "name": "tugas1-restful-2428240140",
+  "version": "1.0.0",
+  "description": "Tugas 1 - RESTful API Murni dengan Express.js - Topik 33 Toko Tani (Pupuk)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Kgs. Muhammad Alialjan Nama",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
