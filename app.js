@@ -87,3 +87,40 @@ app.get("/", (req, res) => {
     ],
   });
 });
+
+// GET /fertilizers
+// GET /fertilizers?jenis=organik
+// Mengambil semua data pupuk atau filter berdasarkan query parameter jenis
+app.get("/fertilizers", (req, res) => {
+  const { jenis } = req.query;
+
+  // Jika ada query filter jenis
+  if (jenis) {
+    const hasilFilter = fertilizers.filter(
+      (item) => item.jenis.toLowerCase() === jenis.toLowerCase()
+    );
+    return res.status(200).json(hasilFilter);
+  }
+
+  // Jika tanpa filter, kembalikan semua data
+  res.status(200).json(fertilizers);
+});
+
+// GET /fertilizers/:id
+// Mengambil satu data pupuk berdasarkan ID
+app.get("/fertilizers/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const pupuk = fertilizers.find((item) => item.id === id);
+
+  // Jika data tidak ditemukan
+  if (!pupuk) {
+    return res.status(404).json({
+      status: "error",
+      message: `Data dengan id ${id} tidak ditemukan`,
+      data: null,
+    });
+  }
+
+  // Jika ditemukan, kirim objek data langsung
+  res.status(200).json(pupuk);
+});
