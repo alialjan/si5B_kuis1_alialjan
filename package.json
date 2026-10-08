@@ -1,7 +1,7 @@
 {
   "name": "tugas1-restful-2428240140",
   "version": "1.0.0",
-  "description": "",
+  "description": "- **Nama**: Kgs. Muhammad Alialjan Nama\r - **NIM**: 2428240140\r - **Kelas**: SI5B\r - **Nomor Topik**: Topik 33\r - **Topik**: Toko Tani\r - **Resource**: Pupuk (`/fertilizers`)\r - **Parameter Filter**: `jenis` (`GET /fertilizers?jenis=organik`)",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -17,5 +17,14 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alialjan/tugas1-restful-2428240140.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/alialjan/tugas1-restful-2428240140/issues"
+  },
+  "homepage": "https://github.com/alialjan/tugas1-restful-2428240140#readme"
 }

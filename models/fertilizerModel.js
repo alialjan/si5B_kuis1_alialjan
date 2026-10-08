@@ -3,8 +3,9 @@ let fertilizers = [
   { id: 2, namaPupuk: "Pupuk Urea Granul", jenis: "anorganik", beratKg: 50, harga: 125000, stok: 25 },
   { id: 3, namaPupuk: "Pupuk Kandang Sapi", jenis: "organik", beratKg: 20, harga: 35000, stok: 50 },
   { id: 4, namaPupuk: "Pupuk NPK Mutiara", jenis: "anorganik", beratKg: 1, harga: 18000, stok: 100 },
+  { id: 5, namaPupuk: "Pupuk ZA", jenis: "anorganik", beratKg: 10, harga: 22000, stok: 80 },
 ];
-let nextId = 5;
+let nextId = 6;
 
 const getAll = (jenis) =>
   jenis ? fertilizers.filter((i) => i.jenis.toLowerCase() === jenis.toLowerCase()) : fertilizers;
