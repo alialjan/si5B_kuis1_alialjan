@@ -1,0 +1,279 @@
+{
+  "info": {
+    "_postman_id": "2c699c3a-8107-4ec2-9179-1552e99e3b71",
+    "name": "pupuk",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58915052",
+    "_collection_link": "https://go.postman.co/collection/58915052-2c699c3a-8107-4ec2-9179-1552e99e3b71?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "CRUD",
+      "item": [
+        {
+          "name": "Info API",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Semua Pupuk",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test script request GET: GET Semua Pupuk\r\npm.test(\"Status code adalah 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"Respons berupa array yang tidak kosong\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json).to.be.an(\"array\").that.is.not.empty;\r\n});\r\npm.test(\"Setiap item memiliki field id, namaPupuk, jenis, beratKg, harga, dan stok\", function () {\r\n    pm.response.json().forEach(function (item) {\r\n        pm.expect(item).to.have.all.keys(\"id\", \"namaPupuk\", \"jenis\", \"beratKg\", \"harga\", \"stok\");\r\n    });\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fertilizers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fertilizers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Pupuk Organik",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fertilizers?jenis=organik",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fertilizers"
+              ],
+              "query": [
+                {
+                  "key": "jenis",
+                  "value": "organik"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tambah Pupuk",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test script request POST: POST Tambah Pupuk\r\npm.test(\"Status code adalah 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\npm.test(\"Respons sukses dan data sesuai dengan yang dikirim\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(\"success\");\r\n    pm.expect(json.data.namaPupuk).to.eql(\"Pupuk NPK Booster\");\r\n    pm.expect(json.data.jenis).to.eql(\"anorganik\");\r\n    pm.expect(json.data.id).to.be.a(\"number\");\r\n});\r\nif (pm.response.code === 201) {\r\n    pm.environment.set(\"pupukId\", pm.response.json().data.id);\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"namaPupuk\": \"Pupuk NPK Booster\",\r\n  \"jenis\": \"anorganik\",\r\n  \"beratKg\": 5,\r\n  \"harga\": 45000,\r\n  \"stok\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/fertilizers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fertilizers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pupuk Berdasarkan ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah Pupuk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fertilizers/{{pupukId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fertilizers",
+                "{{pupukId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus Pupuk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fertilizers/{{pupukId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fertilizers",
+                "{{pupukId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Skenario Gagal",
+      "item": [
+        {
+          "name": "Pupuk yang Sudah Dihapus",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tanpa API Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code adalah 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\npm.test(\"Respons error menyatakan API key tidak valid\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(\"error\");\r\n    pm.expect(json.message).to.include(\"API key\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"namaPupuk\": \"Pupuk NPK Booster\",\r\n  \"jenis\": \"anorganik\",\r\n  \"beratKg\": 5,\r\n  \"harga\": 45000,\r\n  \"stok\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "POST {{base_url}}/fertilizers",
+              "host": [
+                "POST {{base_url}}"
+              ],
+              "path": [
+                "fertilizers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Data Tidak Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code adalah 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\npm.test(\"Respons error menjelaskan field wajib dan data null\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.status).to.eql(\"error\");\r\n    pm.expect(json.message).to.include(\"wajib diisi\");\r\n    pm.expect(json.data).to.be.null;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"namaPupuk\": \"Pupuk Tanpa Harga\",\r\n  \"jenis\": \"organik\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/fertilizers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fertilizers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Endpoint Tidak Dikenal",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
